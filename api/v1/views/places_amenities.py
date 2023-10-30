@@ -17,7 +17,7 @@ def get_place_amenities(place_id):
     """
     Retrieves the list of all Amenity objects of a Place
     """
-    place = storage.get(Place, place_id)
+    place = storage.get("Place", place_id)
 
     if not place:
         abort(404)
@@ -39,12 +39,12 @@ def delete_place_amenity(place_id, amenity_id):
     """
     Deletes a Amenity object of a Place
     """
-    place = storage.get(Place, place_id)
+    place = storage.get("Place", place_id)
 
     if not place:
         abort(404)
 
-    amenity = storage.get(Amenity, amenity_id)
+    amenity = storage.get("Amenity", amenity_id)
 
     if not amenity:
         abort(404)
@@ -70,12 +70,12 @@ def post_place_amenity(place_id, amenity_id):
     """
     Link a Amenity object to a Place
     """
-    place = storage.get(Place, place_id)
+    place = storage.get("Place", place_id)
 
     if not place:
         abort(404)
 
-    amenity = storage.get(Amenity, amenity_id)
+    amenity = storage.get("Amenity", amenity_id)
 
     if not amenity:
         abort(404)
