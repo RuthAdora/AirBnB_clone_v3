@@ -1,13 +1,12 @@
 #!/usr/bin/python3
 """ View for Place objects that handles default API actions """
+
+
 from api.v1.views import app_views
 from flask import jsonify, abort, make_response, request
 from models import storage
 from models.city import City
 from models.place import Place
-import requests
-import json
-from os import getenv
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
@@ -53,8 +52,8 @@ def post_place(city_id):
         abort(400, "Not a JSON")
     if "user_id" not in new_place:
         abort(400, "Missing user_id")
-    user_id = new_place['user_id']
-    if not storage.get("User", user_id):
+    user = storage.get("User", new_place['user_id'])
+    if not user:
         abort(404)
     if "name" not in new_place:
         abort(400, "Missing name")
@@ -77,10 +76,10 @@ def put_place(place_id):
     if not body_request:
         abort(400, "Not a JSON")
 
-    for k, v in body_request.items():
-        if k not in ['id', 'user_id', 'city_at',
+    for key, value in body_request.items():
+        if key not in ['id', 'user_id', 'city_at',
                      'created_at', 'updated_at']:
-            setattr(place, k, v)
+            setattr(place, key, value)
 
     storage.save()
     return make_response(jsonify(place.to_dict()), 200)
